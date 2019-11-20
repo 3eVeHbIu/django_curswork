@@ -13,6 +13,9 @@ class Themes(models.Model):
         verbose_name = 'Тематика'
         ordering = ['name']
 
+    def __str__(self):
+        return self.name
+
 
 class News(models.Model):
     headline = models.CharField(max_length=32,
@@ -33,4 +36,4 @@ class News(models.Model):
         verbose_name_plural = 'Новости'
         verbose_name = 'Новость'
         ordering = ['-edit_date_time']
-        unique_together = ('headline', 'description')
+        #unique_together = ('headline', 'description')
