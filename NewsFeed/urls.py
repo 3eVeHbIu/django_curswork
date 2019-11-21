@@ -3,6 +3,6 @@ from django.urls import path, include
 from .views import index
 
 urlpatterns = [
-    path('news/', index),
+    path('', index, name='index'),
     path('accounts/', include('django.contrib.auth.urls')),
 ]

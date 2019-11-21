@@ -1,12 +1,18 @@
 {% extends "NewsFeed/includes/wrapper.html" %}{% block content %}
-<div class="padding"></div>
 <div class="container-fluid">
     <div class="row text-center">
-        <div class="col">
-            <h1>Приветсвую тебя на нашем сайте<br>
+        {% if user.is_authenticated %}
+
+
+        {% else %}
+        <div class="col-1"></div>
+        <div class="col align-middle GameRoboText">
+            <h2>Приветсвую тебя на нашем сайте<br>
                 что-бы продолжить работу тебе необходимо
-                авторизироваться</h1>
+                авторизироваться</h2>
         </div>
+        <div class="col-1"></div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

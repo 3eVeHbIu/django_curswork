@@ -1,0 +1,60 @@
+{% extends "NewsFeed/includes/wrapper.html" %}{% block content %}
+{% if user.is_authenticated %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-auto-md align-middle GameRoboText">
+            <p>Вы уже авторизовались</p>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</div>
+{% else %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-md-auto">
+            {% if form.errors %}
+            <div class="alert alert-danger text-center col-12" role="alert">
+                Неверно указаны Имя пользователя или пароль
+            </div>
+            {% endif %}
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <!--<label for="id_username"></label>-->
+                            {{ form.username.label_tag }}
+                        </div>
+                        <div class="col-md-auto">
+                            {{ form.username }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <!--{{ from.password.label_tag }}-->
+                            <label for="id_password">Пароль: </label>
+                        </div>
+                        <div class="col-md-auto">
+                            {{ form.password }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-auto">
+                        <input class="btn btn-secondary" type="submit" value="login">
+                    </div>
+                    <div class="col text-right">
+                        <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
