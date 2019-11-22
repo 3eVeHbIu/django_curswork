@@ -103,6 +103,8 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 '''
-TestUser1:  DangoTuser
+TestUser1:  Tuser1234
 '''

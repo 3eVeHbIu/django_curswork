@@ -1,4 +1,6 @@
-{% extends "NewsFeed/includes/wrapper.html" %}{% block content %}
+{% extends "NewsFeed/includes/wrapper.html" %}
+{% block title %}Вход{% endblock title%}
+{% block content %}
 {% if user.is_authenticated %}
 <div class="container-fluid">
     <div class="row">
