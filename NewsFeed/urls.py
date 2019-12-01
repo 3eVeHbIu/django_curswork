@@ -1,8 +1,8 @@
 from django.urls import path, include
 
-from .views import index
+from .views import index, registration
 
 urlpatterns = [
     path('', index, name='index'),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('registration/', registration, name='registration'),
 ]
