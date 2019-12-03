@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core import validators
 from captcha.fields import CaptchaField
+from .models import News, Themes
 
 
 class UserForm(forms.ModelForm):
@@ -43,8 +44,8 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'password1',
-                  'password2', 'first_name', 'last_name',)
+        fields = ('email', 'username', 'first_name',
+                  'last_name', 'password1', 'password2',)
 
     def clean(self):
         super().clean()
@@ -61,4 +62,20 @@ class UserForm(forms.ModelForm):
 
 
 class NewsForm(forms.ModelForm):
-    pass
+    # Вещаются на label  как повесить на input?
+    error_css_class = 'is-invalid'
+    required_css_class = 'is-valid'
+    ###
+    field_order = ('headline', 'subjects', 'description', 'image',)
+    headline = forms.CharField(label='Название статьи',
+                               widget=forms.widgets.TextInput(attrs={'placeholder': 'Заголовок', 'class': 'form-control'}))
+    subjects = forms.ModelMultipleChoiceField(label='Выберете тематику',
+                                              queryset=Themes.objects.all(),
+                                              widget=forms.widgets.SelectMultiple(attrs={'class': 'custom-select'}))
+    description = forms.CharField(label='Текст статьи',
+                                  widget=forms.Textarea(attrs={'class': 'form-control'}))
+    image = forms.ImageField(label='Изображение',)
+
+    class Meta:
+        model = News
+        fields = ('headline', 'subjects', 'description', 'image',)

@@ -1,0 +1,8 @@
+{% extends "NewsFeed/includes/wrapper.html" %}
+{% block title %}Создание новости{% endblock title%}
+{% block content %}
+<form action="{% url 'create' %}">
+    {% csrf_token %}
+    {{ form }}
+</form>
+{% endblock %}

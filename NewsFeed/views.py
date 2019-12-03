@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import News
 from .forms import UserForm, NewsForm
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -29,3 +30,10 @@ def registration(request):
             form = UserForm()
             context = {'form': form}
             return render(request, 'registration/registration.html', context)
+
+
+@login_required
+def create_post(request):
+    form = NewsForm()
+    context = {'form': form}
+    return render(request, 'NewsFeed/create.html', context)

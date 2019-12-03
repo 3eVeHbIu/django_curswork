@@ -111,3 +111,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CAPTCHA_LENGTH = 5
 
 CAPTCHA_FONT_SIZE = 34
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
+
+FILE_UPLOAD_TEMP_DIR = 5242880
