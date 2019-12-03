@@ -1,37 +1,29 @@
 {% extends "NewsFeed/includes/wrapper.html" %}
 {% block title %}Регистрация{% endblock title%}
 {% block content %}
-
+{% if form.non_field_errors %}
+<script>
+    {% for error in form.non_field_errors %}
+    alert("{{ error }}");
+    {% endfor %}
+</script>
+{% endif %}
 <div class="container-fluid">
     <div class="row">
         <div class="col-3"></div>
         <div class="col">
             <form method="POST" action="{% url 'registration' %}">
                 {% csrf_token %}
+                {%for field in form %}
                 <div class="form-group">
-                    {{ form.username.label_tag }}
-                    {{ form.username }}
+                    <!--Разобраться с сортировкой полей-->
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                    <div class="alert alert-danger"> {{ field.errors }}</div>
+                    {% endif %}
                 </div>
-                <div class="form-group">
-                    {{ form.email.label_tag }}
-                    {{ form.email }}
-                </div>
-                <div class="form-group">
-                    {{ form.first_name.label_tag }}
-                    {{ form.first_name }}
-                </div>
-                <div class="form-group">
-                    {{ form.last_name.label_tag }}
-                    {{ form.last_name }}
-                </div>
-                <div class="form-group">
-                    {{ form.password1.label_tag }}
-                    {{ form.password1 }}
-                </div>
-                <div class="form-group">
-                    {{ form.password2.label_tag }}
-                    {{ form.password2 }}
-                </div>
+                {% endfor %}
                 <input class="btn btn-secondary" type="submit" value="Регистрация">
             </form>
         </div>

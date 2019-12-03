@@ -11,10 +11,25 @@
                     <a href="{% url 'index' %}" class="nav-link">Главная</a>
                 </li>
                 {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Новости
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a href="#" class="dropdown-item">Все новости</a>
+                        <a href="#" class="dropdown-item">Мои новости</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">Создать</a>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a href="{% url 'logout' %}" class="nav-link">Выйти</a>
                 </li>
                 {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'registration' %}" class="nav-link">Регистрация</a>
+                </li>
                 <li class="nav-item">
                     <a href="{% url 'login' %}" class="nav-link">Войти</a>
                 </li>
