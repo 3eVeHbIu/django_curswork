@@ -1,5 +1,6 @@
 from django.db import models
 from django.core import validators
+from django.contrib.auth.models import User
 
 
 class Themes(models.Model):
@@ -18,7 +19,7 @@ class Themes(models.Model):
 
 
 class News(models.Model):
-    headline = models.CharField(max_length=32,
+    headline = models.CharField(max_length=64,
                                 verbose_name='Заголовок новости',
                                 help_text='Введите название новости',
                                 validators=[validators.MinLengthValidator(5)],
@@ -26,7 +27,10 @@ class News(models.Model):
     description = models.TextField(verbose_name='Содержание новости')
     edit_date_time = models.DateTimeField(auto_now=True,
                                           verbose_name='Дата и время последней правки')
-    # creator =
+    # creator = models.ManyToManyField(User.username,
+    #                                 verbose_name='Автор',
+    #                                 disable=True,
+    #                                 initial=User)
     # image =
     subjects = models.ManyToManyField(Themes,
                                       verbose_name='Тематики',

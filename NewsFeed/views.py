@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
-from .forms import UserForm
+from .models import News
+from .forms import UserForm, NewsForm
 from django.contrib.auth import authenticate, login
 
 
 def index(request):
-    return render(request, 'NewsFeed/index.html',)
+    news = News.objects.all()
+    context = {'news': news}
+    return render(request, 'NewsFeed/index.html', context)
 
 
 def registration(request):
@@ -15,7 +18,7 @@ def registration(request):
             form = UserForm(request.POST)
             if form.is_valid():
                 user = form.save()
-                # return redirect('login') #Доделать активацию по почте
+                # return redirect('login') # Доделать активацию по почте
                 login(request, user)
                 return redirect('index')
             else:

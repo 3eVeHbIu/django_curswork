@@ -2,9 +2,16 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core import validators
+from captcha.fields import CaptchaField
 
 
 class UserForm(forms.ModelForm):
+    # Вещаются на label  как повесить на input?
+    error_css_class = 'is-invalid'
+    required_css_class = 'is-valid'
+    ###
+    field_order = ('email', 'username',
+                   'first_name', 'last_name', 'password1', 'password2')
     username = forms.CharField(label='Имя пользователя',
                                min_length=4,
                                widget=forms.widgets.TextInput(attrs={'placeholder': 'Ivan', 'class': 'form-control'}))
@@ -31,21 +38,26 @@ class UserForm(forms.ModelForm):
     password2 = forms.CharField(label='Повторить пароль',
                                 min_length=6,
                                 widget=forms.widgets.PasswordInput(attrs={'class': 'form-control'}))
+    captcha = CaptchaField(label="Введите текст с картинки",
+                           error_messages={'invalid': 'Неправильный текст'})
 
     class Meta:
         model = User
         fields = ('email', 'username', 'password1',
-                  'password2', 'first_name', 'last_name')
+                  'password2', 'first_name', 'last_name',)
 
     def clean(self):
         super().clean()
         errors = {}
         if self.cleaned_data['password1'] != self.cleaned_data['password2']:
             errors['password1'] = ValidationError('Пароли не совпадают')
+        if User.objects.filter(email=self.cleaned_data['email']):
+            errors['email'] = ValidationError('Email уже занят')
+        if User.objects.filter(username=self.cleaned_data['username']):
+            errors['email'] = ValidationError(
+                'Такое имя пользователя уже зарегистрировано')
         if errors:
             raise ValidationError(errors)
-
-# Написать функцию которая вещает на поля классы is-valid/is-invalid
 
 
 class NewsForm(forms.ModelForm):

@@ -14,6 +14,7 @@ ALLOWED_HOSTS = []
 # Application definition
 INSTALLED_APPS = [
     'NewsFeed.apps.NewsfeedConfig',
+    'captcha',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -97,10 +98,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+LOGIN_URL = '/accounts/login/'
+
 LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/'
+
+PASSWORD_RESET_TIMEOUT_DAYS = 7
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-'''
-TestUser1:  Tuser1234
-'''
+CAPTCHA_LENGTH = 5
+
+CAPTCHA_FONT_SIZE = 34

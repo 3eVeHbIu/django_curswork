@@ -16,7 +16,6 @@
                 {% csrf_token %}
                 {%for field in form %}
                 <div class="form-group">
-                    <!--Разобраться с сортировкой полей-->
                     {{ field.label_tag }}
                     {{ field }}
                     {% if field.errors %}
