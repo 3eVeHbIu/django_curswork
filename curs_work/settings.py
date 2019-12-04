@@ -15,6 +15,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'NewsFeed.apps.NewsfeedConfig',
     'captcha',
+    'precise_bbcode',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

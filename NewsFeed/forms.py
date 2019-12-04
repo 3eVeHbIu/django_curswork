@@ -70,11 +70,16 @@ class NewsForm(forms.ModelForm):
     headline = forms.CharField(label='Название статьи',
                                widget=forms.widgets.TextInput(attrs={'placeholder': 'Заголовок', 'class': 'form-control'}))
     subjects = forms.ModelMultipleChoiceField(label='Выберете тематику',
+                                              help_text='Для выбора нескольких позиций удерживайте ctrl',
                                               queryset=Themes.objects.all(),
                                               widget=forms.widgets.SelectMultiple(attrs={'class': 'custom-select'}))
     description = forms.CharField(label='Текст статьи',
                                   widget=forms.Textarea(attrs={'class': 'form-control'}))
-    image = forms.ImageField(label='Изображение',)
+    image = forms.ImageField(label='Изображение',
+                             required=False,
+                             validators=[validators.FileExtensionValidator(
+                                 allowed_extensions=('gif', 'jpg', 'jpeg', 'png'))],
+                             error_messages={'invalid_extension': 'Этот формат не поддерживается'})
 
     class Meta:
         model = News

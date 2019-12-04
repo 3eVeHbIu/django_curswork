@@ -1,34 +1,33 @@
 {% extends "NewsFeed/includes/wrapper.html" %}{% block content %}
 <div class="container-fluid">
     <div class="row">
-        <!-- сделать проверку если создатель то около заголовка рендерить ссылку на редактирование
-            внизу полосочка и под ней ник создателя и дата последней редакции    -->
         {% if user.is_authenticated %}
-        <div class="col-2"></div>
-        <div class="col">
-            {% for item in news %}
-            <div class="container-fluid padding">
-                <div class="row">
-                    <div class="col text-center">
-                        <h1>{{ item.headline }}</h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <p>{{ item.description }}</p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="col-2"></div>
-        {% else %}
-        <div class="col-1"></div>
-        <div class="col text-center align-middle GameRoboText">
-            <h2>Приветсвую тебя на нашем сайте,<br>
-                чтобы продолжить работу, тебе необходимо
-                авторизироваться.</h2>
-        </div>
-        <div class="col-1"></div>
-        {% endif %}
+        {% include "NewsFeed/includes/feed.html"%}
     </div>
+    <div class="row padding">
+        <div class="col"></div>
+        <div class="col-2 text-center">
+            {% if page.has_previous %}
+            <a href="?page={{ page.previous_page_number }}">&lt;</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+            {% endif %}
+            Страница №{{ page.number }} из {{ page.paginator.num_pages }}
+            {% if page.has_next %}
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="?page={{ page.next_page_number }}">&gt;</a>
+            {% endif %}
+        </div>
+        <div class="col"></div>
+    </div>
+    {% else %}
+    <div class="col-1"></div>
+    <div class="col text-center align-middle GameRoboText">
+        <h2>Приветсвую тебя на нашем сайте,<br>
+            чтобы продолжить работу, тебе необходимо
+            авторизироваться.</h2>
+    </div>
+    <div class="col-1"></div>
+    {% endif %}
+</div>
 </div>
 {% endblock %}
