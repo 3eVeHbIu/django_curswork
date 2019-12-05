@@ -8,5 +8,5 @@ urlpatterns = [
     path('create/', create_post, name='create'),
     path('news_edit/<int:news_id>/', edit, name='edit'),
     path('by_theme/<int:theme_id>/', by_theme, name='by_theme'),
-    path('<str:username>/', show_my_news, name='my_news')
+    path('user/<str:username>/', show_my_news, name='my_news')
 ]
