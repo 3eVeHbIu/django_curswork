@@ -1,4 +1,12 @@
-{% extends "NewsFeed/includes/wrapper.html" %}{% block content %}
+{% extends "NewsFeed/includes/wrapper.html" %}
+{% block title %}
+{% if title %}
+{{ title }}
+{% else %}
+Главная страница
+{% endif %}
+{% endblock title%}
+{% block content %}
 <div class="container-fluid">
     <div class="row">
         {% if user.is_authenticated %}

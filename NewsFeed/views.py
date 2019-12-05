@@ -4,11 +4,12 @@ from .forms import UserForm, NewsForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.contrib.auth.models import User
 
 '''
 БАГИ:
-    Ограничить доступ к редактированию все пользователям кроме создателя
     Сейчас можно загружать фото только с название не состоящим из цифр, иначе происходит ошибка
+    Письмо о сбросе пароля не отправляется
 ИДЕИ:
     Реализовать активацию аккаунта по почте
 '''
@@ -73,34 +74,57 @@ def create_post(request):
 def edit(request, news_id):
     themes = Themes.objects.all()
     news = News.objects.get(pk=news_id)
-    if request.method == 'POST':
-        form = NewsForm(request.POST, request.FILES, instance=news)
-        if form.is_valid():
-            if form.has_changed():
-                form.save()
-            return redirect('index')
+    if request.user == news.creator:
+        if request.method == 'POST':
+            form = NewsForm(request.POST, request.FILES, instance=news)
+            if form.is_valid():
+                if form.has_changed():
+                    form.save()
+                return redirect('index')
+            else:
+                errors = UserForm.errors
+                context = {'form': form, 'errors': errors,
+                           'themes': themes, 'id': news_id}
+                return render(request, 'NewsFeed/edit.html', context)
         else:
-            errors = UserForm.errors
-            context = {'form': form, 'errors': errors,
-                       'themes': themes, 'id': news_id}
+            form = NewsForm(instance=news)
+            context = {'form': form, 'themes': themes, 'id': news_id}
             return render(request, 'NewsFeed/edit.html', context)
     else:
-        form = NewsForm(instance=news)
-        context = {'form': form, 'themes': themes, 'id': news_id}
-        return render(request, 'NewsFeed/edit.html', context)
+        return redirect('index')
 
 
 @login_required
 def by_theme(request, theme_id):
     themes = Themes.objects.all()
+    title = Themes.objects.get(pk=theme_id)
     news = News.objects.filter(subjects=theme_id)
-    context = {'news': news, 'themes': themes}
-    if request.user.is_authenticated:
+    paginator = Paginator(news, 5)
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+    page = paginator.get_page(page_num)
+    context = {'page': page, 'news': page.object_list,
+               'themes': themes, 'title': title}
+    return render(request, 'NewsFeed/index.html', context)
+
+
+@login_required
+def show_my_news(request, username):
+    themes = Themes.objects.all()
+    user = User.objects.get(username=username)
+    if request.user == user:
+        title = 'Мои новости'
+        news = News.objects.filter(creator=user)
         paginator = Paginator(news, 5)
         if 'page' in request.GET:
             page_num = request.GET['page']
         else:
             page_num = 1
         page = paginator.get_page(page_num)
-        context = {'page': page, 'news': page.object_list, 'themes': themes}
-    return render(request, 'NewsFeed/index.html', context)
+        context = {'page': page, 'news': page.object_list,
+                   'themes': themes, 'title': title}
+        return render(request, 'NewsFeed/index.html', context)
+    else:
+        return redirect('index')
