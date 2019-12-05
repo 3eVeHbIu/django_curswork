@@ -57,7 +57,7 @@ WSGI_APPLICATION = 'curs_work.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'CursWork',
+        'NAME': 'DjangoCursWork',
         'HOST': 'localhost',
         'USER': 'DjangoUser',
         'PASSWORD': 'django',

@@ -17,8 +17,11 @@
                         Новости
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a href="#" class="dropdown-item">Мои новости</a>
+                        {% for theme in themes %}
+                        <a href="{% url 'by_theme' theme.pk %}" class="dropdown-item">{{ theme.name }}</a>
+                        {% endfor %}
                         <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">Мои новости</a>
                         <a href="{% url 'create' %}" class="dropdown-item">Создать</a>
                     </div>
                 </li>

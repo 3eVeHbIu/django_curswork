@@ -8,8 +8,7 @@ from os.path import splitext
 class Themes(models.Model):
     name = models.CharField(max_length=32,
                             db_index=True,
-                            verbose_name='Тематика',
-                            primary_key=True)
+                            verbose_name='Тематика',)
 
     class Meta:
         verbose_name_plural = 'Тематики'
@@ -25,7 +24,7 @@ def get_timestamp_path(instance, filename):
 
 
 class News(models.Model):
-    headline = models.CharField(max_length=64,
+    headline = models.CharField(max_length=128,
                                 verbose_name='Заголовок новости',
                                 help_text='Введите название новости',
                                 validators=[validators.MinLengthValidator(5)],
@@ -34,6 +33,7 @@ class News(models.Model):
     edit_date_time = models.DateTimeField(auto_now=True,
                                           verbose_name='Дата и время последней правки')
     creator = models.ForeignKey(User,
+                                editable=False,
                                 null=True,
                                 blank=True,
                                 on_delete=models.CASCADE,
@@ -50,4 +50,3 @@ class News(models.Model):
         verbose_name_plural = 'Новости'
         verbose_name = 'Новость'
         ordering = ['-edit_date_time']
-        #unique_together = ('headline', 'description')
