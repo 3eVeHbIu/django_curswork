@@ -118,3 +118,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 FILE_UPLOAD_TEMP_DIR = 5242880
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
